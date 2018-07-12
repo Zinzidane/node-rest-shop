@@ -1,13 +1,17 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-
+const mongoose = require('mongoose');
 const app = express();
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 
+mongoose.connect('mongodb://nodeshop:' + process.env.MONGO_URI_PW + '@ds233541.mlab.com:33541/node-rest-shop',  { useNewUrlParser: true });
+mongoose.Promise = global.Promise;
+
 app.use(morgan('dev'));
+app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
